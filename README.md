@@ -1,27 +1,78 @@
 # AngularCurrencySample
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
+    npm install ng2-currency-mask --save
+    
+# Import the module
 
-## Development server
+```
+import { CurrencyMaskModule } from "ng2-currency-mask";
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```
+@NgModule({
+    imports: [
+        ...
+        CurrencyMaskModule
+    ],
+    declarations: [...],
+    providers: [...]
+})
+export class AppModule {}
 
-## Code scaffolding
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+Using
+```
+<input currencyMask [(ngModel)]="value" />
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+ngModel An attribute of type number. If is displayed '$ 25.63', the attribute will be '25.63'.
+Options
+You can set options as follows:
 
-## Running unit tests
+```
+<input currencyMask [(ngModel)]="value" [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" />
+```
+Available options:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+align - Text alignment in input. (default: right)
+allowNegative - If true can input negative values. (default: true)
+decimal - Separator of decimals (default: '.')
+precision - Number of decimal places (default: 2)
+prefix - Money prefix (default: '$ ')
+suffix - Money suffix (default: '')
+thousands - Separator of thousands (default: ',')
+You can also set options globally...
+```
+import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 
-## Running end-to-end tests
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+    align: "right",
+    allowNegative: true,
+    decimal: ",",
+    precision: 2,
+    prefix: "R$ ",
+    suffix: "",
+    thousands: "."
+};
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+@NgModule({
+    imports: [
+        ...
+        CurrencyMaskModule
+    ],
+    declarations: [...],
+    providers: [
+        { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
+    ],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Validation
+This directive also provides built-in validation for minimum and maximum values. If the attributes 'min' and / or 'max' are set, the Angular CSS class 'ng-invalid' will be added to the input to indicate an invalid value.
+```
+<input currencyMask [(ngModel)]="value" min="-10.50" max="100.75" />
+```

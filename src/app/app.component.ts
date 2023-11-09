@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: ` <input currencyMask [(ngModel)]="value" /> `,
 })
 export class AppComponent {
-  title = 'angular-currency-sample';
+  value?: number;
 }
